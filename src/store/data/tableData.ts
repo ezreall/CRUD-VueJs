@@ -31,7 +31,8 @@ const ModuleA = {
                 age: "23"
             }
         ]
-    }
+    },
+  
     
 }
 export default  ModuleA

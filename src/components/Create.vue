@@ -10,7 +10,7 @@
       class="demo-ruleForm"
     >
       <el-form-item>
-        <el-input v-model="student.name"></el-input>
+        <el-input v-model="name"></el-input>
       </el-form-item>
       <el-form-item>
         <el-input v-model="student.age"></el-input>
@@ -29,68 +29,104 @@
   </div>
 </template>
 
-<script>
-import Menu from "../views/Menu.vue";
+<script lang="ts">
+import { Component, Prop, Vue, Watch } from "vue-property-decorator";
 
-export default {
-  computed: {
-    data() {
-      return this.$store.state.tableData;
-    },
+export default class Create extends Vue {
+  @Prop({ type: Object, default: null }) readonly row?: Record<string,any>;
 
-  },
-  props: {
-    row: {
-      type: Object,
-      default: null
-    }
-  },
-  watch: {
-    row() {
-      if (this.row) {
-        this.student = Object.assign({}, this.row);
-      } else {
-        this.student = {};
-      }
-    }
-  },
-  methods: {
-    CanCel() {
-      this.student = {
-        id: Math.floor(Math.random() * 1000),
-        name: "",
-        age: "",
-        phone: "",
-        address: ""
-      };
-    },
-    AddUser() {
-      this.$emit("save", this.student);
-      this.student = {
-        id: Math.floor(Math.random() * 1000),
-        name: "",
-        age: "",
-        phone: "",
-        address: ""
-      };
-      console.log(this.student);
-    }
-  },
-  components: {
-    Menu
-  },
-  data() {
-    return {
-      student: {
-        id: Math.floor(Math.random() * 1000),
-        name: "",
-        age: "",
-        phone: "",
-        address: ""
-      }
-    };
+  student: Record<string, any> = {
+    id: Math.floor(Math.random() * 1000),
+    name: "",
+    age: "",
+    phone: "",
+    address: "",
+  };
+  name: string = ""
+  get data(): string {
+    return this.$store.state.tableData;
   }
-};
+  
+  @Watch("student")
+  Row(row: any): void {
+    console.log(row);
+    this.student = row;
+  }
+
+  AddUser() {
+    this.$emit("save", this.student);
+    this.student = {
+      id: Math.floor(Math.random() * 1000),
+      name: "",
+      age: "",
+      phone: "",
+      address: "",
+    };
+    console.log(this.student);
+  }
+
+  // computed: {
+  //   data(): void {
+  //     return this.$store.state.tableData;
+  //   }
+  // },
+  // props: {
+  //   row: {
+  //     type: Object,
+  //     default: null
+  //   }
+  // },
+  // watch: {
+  //   row(): void {
+  //     if (this.row) {
+  //       this.student = Object.assign({}, this.row);
+  //     } else {
+  //       this.student = {
+  //         id: Math.floor(Math.random() * 1000),
+  //         name: "",
+  //         age: "",
+  //         phone: "",
+  //         address: ""
+  //       };
+  //     }
+  //   }
+  // },
+  // methods: {
+  //   CanCel() {
+  //     this.student = {
+  //       id: Math.floor(Math.random() * 1000),
+  //       name: "",
+  //       age: "",
+  //       phone: "",
+  //       address: ""
+  //     };
+  //   },
+  //   AddUser() {
+  //     this.$emit("save", this.student);
+  //     this.student = {
+  //       id: Math.floor(Math.random() * 1000),
+  //       name: "",
+  //       age: "",
+  //       phone: "",
+  //       address: ""
+  //     };
+  //     console.log(this.student);
+  //   }
+  // },
+
+  // data() {
+  //   console.log(this.$store.state.tableData)
+  //   return {
+  //     student: {
+  //       id: Math.floor(Math.random() * 1000),
+  //       name: "",
+  //       age: "",
+  //       phone: "",
+  //       address: ""
+  //     }
+  //   };
+  // }
+}
 </script>
 
 <style>

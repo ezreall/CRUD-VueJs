@@ -1,15 +1,15 @@
 <template>
   <div class="App">
     <el-col :span="20" style="text-algin:center">
-      <Create @save="clickAdd" :row="hocsinh" />
+      <create @save="clickAdd" :row="hocsinh" />
     </el-col>
     <el-col :span="20" style="text-algin:center">
       <div class="content">
         <el-table
           style="width: 100%"
           :data="
-            data.tableData.filter(
-              data =>
+            tableData.filter(
+              (data) =>
                 !search ||
                 data.name.toLowerCase().includes(search.toLowerCase())
             )
@@ -30,7 +30,7 @@
           <el-table-column label="Tuổi" prop="age"> </el-table-column>
 
           <el-table-column align="right">
-            <template slot="header" slot-scope="scope">
+            <template slot="header">
               <el-input
                 v-model="search"
                 size="mini"
@@ -44,7 +44,7 @@
               <el-button
                 size="mini"
                 type="danger"
-                @click="handleDelete(scope.$index, data.tableData)"
+                @click="handleDelete(scope.$index, tableData)"
                 >Delete</el-button
               >
             </template>
@@ -59,67 +59,43 @@
   </div>
 </template>
 
-<script>
-import Menu from "../views/Menu";
-import Create from "../components/Create.vue";
-export default {
-  computed: {
-    data() {
-      // console.log(this.$store.state.tableData);
-      return this.$store.state.tableData;
-    }
-  },
+<script lang="ts">
+import Create from "./Create.vue";
+import { Component, Vue } from "vue-property-decorator";
+@Component({
   components: {
-    Menu,
-    Create
+    Create,
   },
-  data() {
-    return {
-      outerVisible: false,
-      innerVisible: false,
-      hocsinh: {},
-      detail: {},
-      search: ""
-    };
-  },
+})
+export default class List extends Vue {
+  public hocsinh: any = {};
+  public search: any = "";
 
-  methods: {
-    handle(row, column, event, cell) {
-      console.log(row);
-      console.log(column);
-      console.log(event);
-      console.log(cell);
-    },
-    detail(row) {
-      console.log(row);
-      outerVisible = false;
-      innerVisible = false;
-    },
-    handleEdit(row) {
-      this.hocsinh = row;
-    },
-    handleDelete(index, row) {
-      row.splice(index, 1);
-    },
-    clickAdd(itemSave) {
-      let index = this.data.tableData.findIndex(c => c.id === itemSave.id);
-      if (index >= 0) {
-        this.data.tableData.splice(index, 1, itemSave);
-      } else {
-        let max = 0;
-        let newId = 0;
-        for (let i = 0; i < this.data.tableData.length; i++) {
-          if (this.data.tableData[i].id > max) {
-            max = this.data.tableData[i].id;
-            console.log(this.data.tableData[i].id);
-          }
-        }
-        itemSave.id = max + 1;
-        this.data.tableData.push(itemSave);
-      }
-    }
+  data(): string {
+    return this.$store.state.tableData;
   }
-};
+  handleEdit(row: any): void {
+    this.hocsinh = row;
+  }
+  handleDelete(index: any, row: any) {
+    row.splice(index, 1);
+  }
+  clickAdd(itemSave: any) {
+    // let index = this.tableData.findIndex((c: any) => c.id === itemSave.id);
+    // if (index >= 0) {
+    //   this.tableData.splice(index, 1, itemSave);
+    // } else {
+    //   this.tableData.push(itemSave);
+    // }
+  }
+
+  handle(row: any, column: any, event: any, cell: any) {
+    console.log(row);
+    console.log(column);
+    console.log(event);
+    console.log(cell);
+  }
+}
 </script>
 <style>
 .content {

@@ -17,6 +17,7 @@
     <el-menu-item index="2-3">item three</el-menu-item>
   </el-submenu>
 </el-menu>
+<router-view></router-view>
   </div>
 </template>
 

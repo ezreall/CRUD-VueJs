@@ -1,5 +1,8 @@
 <template>
   <div class="App">
+    <div>
+      <span>Tổng Số User:{{ data.tableData.length }}</span>
+    </div>
     <el-form
       :model="student"
       ref="ruleForm"
@@ -20,7 +23,7 @@
       </el-form-item>
       <el-form-item>
         <el-button @click="AddUser('student')">Submit</el-button>
-        <el-button>Reset</el-button>
+        <el-button @click="CanCel('student')">Reset</el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -30,6 +33,12 @@
 import Menu from "../views/Menu.vue";
 
 export default {
+  computed: {
+    data() {
+      return this.$store.state.tableData;
+    },
+
+  },
   props: {
     row: {
       type: Object,
@@ -46,9 +55,24 @@ export default {
     }
   },
   methods: {
+    CanCel() {
+      this.student = {
+        id: Math.floor(Math.random() * 1000),
+        name: "",
+        age: "",
+        phone: "",
+        address: ""
+      };
+    },
     AddUser() {
-   
       this.$emit("save", this.student);
+      this.student = {
+        id: Math.floor(Math.random() * 1000),
+        name: "",
+        age: "",
+        phone: "",
+        address: ""
+      };
       console.log(this.student);
     }
   },
@@ -71,6 +95,6 @@ export default {
 
 <style>
 .App {
-  margin-top: 50px;
+  margin-top: 10px;
 }
 </style>

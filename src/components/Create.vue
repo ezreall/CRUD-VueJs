@@ -1,7 +1,7 @@
 <template>
   <div class="App">
     <div>
-      <span>Tổng Số User:{{ data.tableData.length }}</span>
+      <span>Tổng Số User:{{ row.length }}</span>
     </div>
     <el-form
       :model="student"
@@ -10,7 +10,7 @@
       class="demo-ruleForm"
     >
       <el-form-item>
-        <el-input v-model="name"></el-input>
+        <el-input v-model="student.name"></el-input>
       </el-form-item>
       <el-form-item>
         <el-input v-model="student.age"></el-input>
@@ -31,10 +31,10 @@
 
 <script lang="ts">
 import { Component, Prop, Vue, Watch } from "vue-property-decorator";
-
+@Component
 export default class Create extends Vue {
-  @Prop({ type: Object, default: null }) readonly row?: Record<string,any>;
-
+  @Prop({ type: Array, default: [] }) readonly row?: Array<Record<string, any>>;
+  @Prop({type:Object}) readonly demo?:Object ;
   student: Record<string, any> = {
     id: Math.floor(Math.random() * 1000),
     name: "",
@@ -42,16 +42,8 @@ export default class Create extends Vue {
     phone: "",
     address: "",
   };
-  name: string = ""
-  get data(): string {
-    return this.$store.state.tableData;
-  }
-  
-  @Watch("student")
-  Row(row: any): void {
-    console.log(row);
-    this.student = row;
-  }
+  name: string = "";
+
 
   AddUser() {
     this.$emit("save", this.student);
@@ -65,6 +57,15 @@ export default class Create extends Vue {
     console.log(this.student);
   }
 
+  CanCel() {
+    this.student = {
+      id: Math.floor(Math.random() * 1000),
+      name: "",
+      age: "",
+      phone: "",
+      address: "",
+    };
+  }
   // computed: {
   //   data(): void {
   //     return this.$store.state.tableData;
@@ -100,7 +101,6 @@ export default class Create extends Vue {
   //       phone: "",
   //       address: ""
   //     };
-  //   },
   //   AddUser() {
   //     this.$emit("save", this.student);
   //     this.student = {
@@ -125,7 +125,8 @@ export default class Create extends Vue {
   //       address: ""
   //     }
   //   };
-  // }
+  // } },
+  //
 }
 </script>
 

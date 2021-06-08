@@ -1,20 +1,11 @@
 <template>
   <div class="App">
     <el-col :span="20" style="text-algin:center">
-      <create @save="clickAdd" :row="hocsinh" />
+      <create @save="clickAdd" :row="tableData" :demo="hocsinh" />
     </el-col>
     <el-col :span="20" style="text-algin:center">
       <div class="content">
-        <el-table
-          style="width: 100%"
-          :data="
-            tableData.filter(
-              (data) =>
-                !search ||
-                data.name.toLowerCase().includes(search.toLowerCase())
-            )
-          "
-        >
+        <el-table style="width: 100%" :data="tableData">
           <el-table-column label="ID" prop="id"></el-table-column>
           <el-table-column label="Name" prop="name">
             <template slot-scope="scope">
@@ -30,13 +21,6 @@
           <el-table-column label="Tuổi" prop="age"> </el-table-column>
 
           <el-table-column align="right">
-            <template slot="header">
-              <el-input
-                v-model="search"
-                size="mini"
-                placeholder="Type to search"
-              />
-            </template>
             <template slot-scope="scope">
               <el-button size="mini" @click="handleEdit(scope.row, scope)"
                 >Edit</el-button
@@ -70,23 +54,26 @@ import { Component, Vue } from "vue-property-decorator";
 export default class List extends Vue {
   public hocsinh: any = {};
   public search: any = "";
+  public tableData: any = {};
 
   data(): string {
     return this.$store.state.tableData;
   }
   handleEdit(row: any): void {
     this.hocsinh = row;
+    let demo = this.hocsinh;
+    console.log(demo);
   }
   handleDelete(index: any, row: any) {
     row.splice(index, 1);
   }
   clickAdd(itemSave: any) {
-    // let index = this.tableData.findIndex((c: any) => c.id === itemSave.id);
-    // if (index >= 0) {
-    //   this.tableData.splice(index, 1, itemSave);
-    // } else {
-    //   this.tableData.push(itemSave);
-    // }
+    let index = this.tableData.findIndex((c: any) => c.id === itemSave.id);
+    if (index >= 0) {
+      this.tableData.splice(index, 1, itemSave);
+    } else {
+      this.tableData.push(itemSave);
+    }
   }
 
   handle(row: any, column: any, event: any, cell: any) {

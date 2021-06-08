@@ -1,6 +1,6 @@
 
 const ModuleA = {
-    state:{
+    state: {
         tableData: [
             {
                 id: "1",
@@ -32,10 +32,14 @@ const ModuleA = {
             }
         ]
     },
-  
-    
+    mutations: {
+    },
+    actions: {
+    },
+
+
 }
-export default  ModuleA
-   
+export default ModuleA
+
 
 

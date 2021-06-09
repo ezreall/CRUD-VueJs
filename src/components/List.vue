@@ -1,7 +1,7 @@
 <template>
   <div class="App">
     <el-col :span="20" style="text-algin:center">
-      <create @save="clickAdd" :row="tableData" :demo="hocsinh" />
+      <create @save="clickAdd" :row="tableData" />
     </el-col>
     <el-col :span="20" style="text-algin:center">
       <div class="content">
@@ -46,6 +46,8 @@
 <script lang="ts">
 import Create from "./Create.vue";
 import { Component, Vue } from "vue-property-decorator";
+import { State } from "vuex-class";
+import { Data } from "../store/type";
 @Component({
   components: {
     Create,
@@ -55,6 +57,7 @@ export default class List extends Vue {
   public hocsinh: any = {};
   public search: any = "";
   public tableData: any = {};
+  @State tableData: Data[];
 
   data(): string {
     return this.$store.state.tableData;

@@ -1,12 +1,11 @@
 
 import Vue from 'vue';
 import Vuex from 'vuex';
-import tableData from './data/tableData'
+import {state} from './tableData'
 
 Vue.use(Vuex);
 
-export default new Vuex.Store({
-  modules: {
-    tableData
-  },
-});
+export const store =  new Vuex.Store({
+  state,
+
+})
